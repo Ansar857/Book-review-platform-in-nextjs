@@ -34,3 +34,110 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+
+# Book Review Platform
+
+This project is a Book Review Platform built with Next.js, Chakra UI, and TypeScript. It includes features such as user authentication, book review management, and user profile management.
+
+## Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Running the Application](#running-the-application)
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+
+- User Authentication (Login, Signup, Logout)
+- Book Review Management (Add, Edit, Delete Reviews)
+- User Profile Management (View and Edit Profile)
+- Protected Routes for authenticated users
+
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- Node.js (v14 or higher) and npm installed on your machine. You can download and install Node.js from [here](https://nodejs.org/).
+
+## Getting Started
+
+To set up the project locally, follow these steps:
+
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/yourusername/book-review-platform.git
+    cd book-review-platform
+    ```
+
+2. **Install the dependencies:**
+    ```bash
+    npm install
+    ```
+
+## Running the Application
+
+To run the application locally:
+
+1. **Start the development server:**
+    ```bash
+    npm run dev
+    ```
+
+2. **Open your browser and navigate to:**
+    ```
+    http://localhost:3000
+    ```
+
+## Project Structure
+
+The project structure is as follows:
+
+
+
+
+
+## Usage
+
+### User Authentication
+
+- **Signup**: Navigate to `/signup` to create a new account.
+- **Login**: Navigate to `/login` to log into your account.
+- **Logout**: Use the "Sign Out" button on the dashboard to log out.
+
+### Book Review Management
+
+- **Add Review**: Navigate to `/dashboard/book-reviews` to add a new book review.
+- **Edit/Delete Review**: You can edit or delete your reviews from the book reviews page.
+
+### User Profile Management
+
+- **View/Edit Profile**: Navigate to `/dashboard/profile` to view and edit your profile information.
+
+## Contributing
+
+Contributions are always welcome! Please follow these steps to contribute:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeature`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add some feature'`).
+5. Push to the branch (`git push origin feature/YourFeature`).
+6. Open a Pull Request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+
+
+
+
+
+
+
