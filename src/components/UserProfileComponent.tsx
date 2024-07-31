@@ -11,8 +11,13 @@ import {
   Center,
   Text,
   Stack,
+  IconButton,
+  Flex,
+  Heading,
 } from '@chakra-ui/react';
-import { StarIcon } from '@chakra-ui/icons';
+import { StarIcon, ArrowBackIcon } from '@chakra-ui/icons';
+import { useRouter } from 'next/navigation';
+import withAuth from './withAuth';
 
 interface User {
   username: string;
@@ -34,6 +39,7 @@ const UserProfileComponent = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [form, setForm] = useState({ username: user.username, email: user.email });
   const toast = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     const storedReviews = JSON.parse(localStorage.getItem('reviews') || '[]');
@@ -61,6 +67,12 @@ const UserProfileComponent = () => {
   return (
     <Center minH="100vh" bg="gray.50" flexDirection="column">
       <Box p={8} maxWidth="500px" width="full" bg="white" boxShadow="md" borderRadius="md" mb={6}>
+        <Flex justifyContent="space-between" alignItems="center" mb={4}>
+          <Button leftIcon={<ArrowBackIcon />} colorScheme="teal" variant="outline" onClick={() => router.push('/dashboard')}>
+            Back
+          </Button>
+          <Heading flex="1" textAlign="center" fontSize="2xl">User Profile</Heading>
+        </Flex>
         <VStack spacing={4}>
           <FormControl id="username">
             <FormLabel>Username</FormLabel>
@@ -105,4 +117,4 @@ const UserProfileComponent = () => {
   );
 };
 
-export default UserProfileComponent;
+export default withAuth(UserProfileComponent);

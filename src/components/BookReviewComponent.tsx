@@ -14,9 +14,12 @@ import {
   Text,
   Stack,
   IconButton,
+  Flex,
+  Heading,
 } from '@chakra-ui/react';
-import { StarIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons';
+import { StarIcon, EditIcon, DeleteIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/navigation';
+import withAuth from './withAuth';
 
 interface Review {
   title: string;
@@ -83,6 +86,12 @@ const BookReviewComponent = () => {
   return (
     <Center minH="100vh" bg="gray.50" flexDirection="column">
       <Box p={8} maxWidth="500px" width="full" bg="white" boxShadow="md" borderRadius="md" mb={6}>
+        <Flex justifyContent="space-between" alignItems="center" mb={4}>
+          <Button leftIcon={<ArrowBackIcon />} colorScheme="teal" variant="outline" onClick={() => router.push('/dashboard')}>
+            Back
+          </Button>
+          <Heading flex="1" textAlign="center" fontSize="2xl">Book Review Management</Heading>
+        </Flex>
         <VStack spacing={4}>
           <FormControl id="title">
             <FormLabel>Book Title</FormLabel>
@@ -157,4 +166,4 @@ const BookReviewComponent = () => {
   );
 };
 
-export default BookReviewComponent;
+export default withAuth(BookReviewComponent);

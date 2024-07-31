@@ -1,16 +1,25 @@
 "use client";
 import { useRouter } from 'next/navigation';
-import { Box, Button, Center, VStack, Flex, Heading, IconButton, Text } from '@chakra-ui/react';
+import { Box, Button, Center, VStack, Flex, Heading, Text, useToast } from '@chakra-ui/react';
 import { EditIcon, StarIcon } from '@chakra-ui/icons';
 import { motion } from 'framer-motion';
+import withAuth from '../../components/withAuth';
 
 const MotionBox = motion(Box);
 
 const Dashboard = () => {
   const router = useRouter();
+  const toast = useToast();
 
   const handleSignOut = () => {
-    document.cookie = 'token=; Max-Age=0; path=/'; // Clear the token cookie
+    localStorage.removeItem('user'); // Clear the user data from local storage
+    toast({
+      title: 'Signed out.',
+      description: "You've been signed out successfully.",
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
     router.push('/login');
   };
 
@@ -31,26 +40,22 @@ const Dashboard = () => {
       >
         <Heading mb={6}>Welcome to Your Dashboard</Heading>
         <VStack spacing={4}>
-          <Flex justify="space-between" align="center" width="full">
-            <Button
-              colorScheme="teal"
-              leftIcon={<EditIcon />}
-              width="full"
-              onClick={() => router.push('/dashboard/book-reviews')}
-              mb={4}
-            >
-              Manage Book Reviews
-            </Button>
-            <Button
-              colorScheme="teal"
-              leftIcon={<StarIcon />}
-              width="full"
-              onClick={() => router.push('/dashboard/profile')}
-              mb={4}
-            >
-              View Profile
-            </Button>
-          </Flex>
+          <Button
+            colorScheme="teal"
+            leftIcon={<EditIcon />}
+            width="full"
+            onClick={() => router.push('/dashboard/book-reviews')}
+          >
+            Manage Book Reviews
+          </Button>
+          <Button
+            colorScheme="teal"
+            leftIcon={<StarIcon />}
+            width="full"
+            onClick={() => router.push('/dashboard/profile')}
+          >
+            View Profile
+          </Button>
           <Button colorScheme="red" onClick={handleSignOut} width="full">
             Sign Out
           </Button>
@@ -63,4 +68,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);
