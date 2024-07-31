@@ -18,6 +18,7 @@ import {
 import { StarIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/navigation';
 import withAuth from './withAuth';
+import isClient from '../utils/isClient';
 
 interface User {
   username: string;
@@ -35,16 +36,18 @@ interface Review {
 }
 
 const UserProfileComponent = () => {
-  const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem('user') || '{}'));
+  const [user, setUser] = useState<User>(isClient() ? JSON.parse(localStorage.getItem('user') || '{}') : {});
   const [reviews, setReviews] = useState<Review[]>([]);
   const [form, setForm] = useState({ username: user.username, email: user.email });
   const toast = useToast();
   const router = useRouter();
 
   useEffect(() => {
-    const storedReviews = JSON.parse(localStorage.getItem('reviews') || '[]');
-    const userReviews = storedReviews.filter((review: Review) => review.userId === user.id);
-    setReviews(userReviews);
+    if (isClient()) {
+      const storedReviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+      const userReviews = storedReviews.filter((review: Review) => review.userId === user.id);
+      setReviews(userReviews);
+    }
   }, [user.id]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -54,8 +57,10 @@ const UserProfileComponent = () => {
 
   const handleSave = () => {
     const updatedUser = { ...user, ...form };
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    setUser(updatedUser);
+    if (isClient()) {
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setUser(updatedUser);
+    }
     toast({
       title: 'Profile updated.',
       status: 'success',

@@ -41,7 +41,7 @@ const Dashboard = () => {
         <Heading mb={6}>Welcome to Your Dashboard</Heading>
         <VStack spacing={4}>
           <Button
-            colorScheme="teal"
+            colorScheme="blue"
             leftIcon={<EditIcon />}
             width="full"
             onClick={() => router.push('/dashboard/book-reviews')}
@@ -49,7 +49,7 @@ const Dashboard = () => {
             Manage Book Reviews
           </Button>
           <Button
-            colorScheme="teal"
+            colorScheme="blue"
             leftIcon={<StarIcon />}
             width="full"
             onClick={() => router.push('/dashboard/profile')}

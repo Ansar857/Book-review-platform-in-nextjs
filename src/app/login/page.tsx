@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from 'react';
 import {
   Box,
@@ -19,7 +19,7 @@ import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';  // Updated import
+import { useRouter } from 'next/navigation';
 
 const MotionBox = motion(Box);
 
@@ -31,12 +31,13 @@ const LoginSchema = Yup.object().shape({
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const toast = useToast();
-  const router = useRouter();  // Corrected hook usage
+  const router = useRouter();
 
   const handleSubmit = (values: any) => {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
     if (user.email === values.email && user.password === values.password) {
+      document.cookie = `token=${user.id}; path=/`;
       toast({
         title: 'Logged in successfully.',
         description: "You've logged into your account.",
@@ -44,7 +45,7 @@ const Login = () => {
         duration: 5000,
         isClosable: true,
       });
-      router.push('/dashboard');  // Ensure the route exists
+      router.push('/dashboard');
     } else {
       toast({
         title: 'Login failed.',
@@ -100,12 +101,12 @@ const Login = () => {
                   </InputGroup>
                 </FormControl>
 
-                <Button type="submit" colorScheme="teal" width="full">
+                <Button type="submit" colorScheme="blue" width="full">
                   Login
                 </Button>
                 <Text>
-                  Don't have an account?{' '}
-                  <Link color="teal.500" onClick={() => router.push('/signup')}>
+                  Don&apos;t have an account?{' '}
+                  <Link color="blue.500" onClick={() => router.push('/signup')}>
                     Register here
                   </Link>
                 </Text>

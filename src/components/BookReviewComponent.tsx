@@ -20,6 +20,7 @@ import {
 import { StarIcon, EditIcon, DeleteIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/navigation';
 import withAuth from './withAuth';
+import isClient from '../utils/isClient';
 
 interface Review {
   title: string;
@@ -35,30 +36,34 @@ const BookReviewComponent = () => {
   const [form, setForm] = useState<Review>({ title: '', author: '', text: '', rating: 1, userId: '' });
   const toast = useToast();
   const router = useRouter();
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const user = isClient() ? JSON.parse(localStorage.getItem('user') || '{}') : {};
 
   useEffect(() => {
-    const storedReviews = JSON.parse(localStorage.getItem('reviews') || '[]');
-    setReviews(storedReviews);
+    if (isClient()) {
+      const storedReviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+      setReviews(storedReviews);
+    }
   }, []);
 
   const handleSubmit = () => {
-    const newReviews = [...reviews];
-    if (editIndex !== null) {
-      newReviews[editIndex] = { ...form, userId: user.id };
-      setEditIndex(null);
-    } else {
-      newReviews.push({ ...form, userId: user.id });
+    if (isClient()) {
+      const newReviews = [...reviews];
+      if (editIndex !== null) {
+        newReviews[editIndex] = { ...form, userId: user.id };
+        setEditIndex(null);
+      } else {
+        newReviews.push({ ...form, userId: user.id });
+      }
+      setReviews(newReviews);
+      localStorage.setItem('reviews', JSON.stringify(newReviews));
+      setForm({ title: '', author: '', text: '', rating: 1, userId: '' });
+      toast({
+        title: 'Review submitted.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
     }
-    setReviews(newReviews);
-    localStorage.setItem('reviews', JSON.stringify(newReviews));
-    setForm({ title: '', author: '', text: '', rating: 1, userId: '' });
-    toast({
-      title: 'Review submitted.',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
   };
 
   const handleEdit = (index: number) => {
@@ -69,7 +74,9 @@ const BookReviewComponent = () => {
   const handleDelete = (index: number) => {
     const newReviews = reviews.filter((_, i) => i !== index);
     setReviews(newReviews);
-    localStorage.setItem('reviews', JSON.stringify(newReviews));
+    if (isClient()) {
+      localStorage.setItem('reviews', JSON.stringify(newReviews));
+    }
     toast({
       title: 'Review deleted.',
       status: 'success',

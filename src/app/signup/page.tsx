@@ -96,12 +96,12 @@ const Register = () => {
                   </InputGroup>
                 </FormControl>
 
-                <Button type="submit" colorScheme="teal" width="full">
+                <Button type="submit" colorScheme="blue" width="full">
                   Register
                 </Button>
                 <Text>
                   Already have an account?{' '}
-                  <Link color="teal.500" onClick={() => router.push('/login')}>
+                  <Link color="blue.500" onClick={() => router.push('/login')}>
                     Login
                   </Link>
                 </Text>
