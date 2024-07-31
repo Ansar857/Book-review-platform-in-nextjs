@@ -23,37 +23,28 @@ import { useRouter } from 'next/navigation';  // Updated import
 
 const MotionBox = motion(Box);
 
-const LoginSchema = Yup.object().shape({
+const RegistrationSchema = Yup.object().shape({
+  username: Yup.string().required('Username is required'),
   email: Yup.string().email('Invalid email').required('Email is required'),
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
 });
 
-const Login = () => {
+const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const toast = useToast();
   const router = useRouter();  // Corrected hook usage
 
   const handleSubmit = (values: any) => {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-
-    if (user.email === values.email && user.password === values.password) {
-      toast({
-        title: 'Logged in successfully.',
-        description: "You've logged into your account.",
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
-      router.push('/dashboard');  // Ensure the route exists
-    } else {
-      toast({
-        title: 'Login failed.',
-        description: 'Incorrect email or password.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
+    console.log(values);
+    localStorage.setItem('user', JSON.stringify(values)); // Save user data to local storage
+    toast({
+      title: 'Account created.',
+      description: "We've created your account for you.",
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+    router.push('/login');  // Ensure the route exists
   };
 
   return (
@@ -73,13 +64,18 @@ const Login = () => {
           <Image src="/books.png" alt="Books" boxSize="100px" />
         </Center>
         <Formik
-          initialValues={{ email: '', password: '' }}
-          validationSchema={LoginSchema}
+          initialValues={{ username: '', email: '', password: '' }}
+          validationSchema={RegistrationSchema}
           onSubmit={handleSubmit}
         >
           {({ errors, touched }) => (
             <Form>
               <VStack spacing={4}>
+                <FormControl id="username" isInvalid={!!errors.username && touched.username}>
+                  <FormLabel>Username</FormLabel>
+                  <Field as={Input} name="username" placeholder="Username" />
+                </FormControl>
+
                 <FormControl id="email" isInvalid={!!errors.email && touched.email}>
                   <FormLabel>Email</FormLabel>
                   <Field as={Input} name="email" type="email" placeholder="Email" />
@@ -101,12 +97,12 @@ const Login = () => {
                 </FormControl>
 
                 <Button type="submit" colorScheme="teal" width="full">
-                  Login
+                  Register
                 </Button>
                 <Text>
-                  Don't have an account?{' '}
-                  <Link color="teal.500" onClick={() => router.push('/signup')}>
-                    Register here
+                  Already have an account?{' '}
+                  <Link color="teal.500" onClick={() => router.push('/login')}>
+                    Login
                   </Link>
                 </Text>
               </VStack>
@@ -118,4 +114,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
